@@ -1,0 +1,36 @@
+<div class="form-container">
+  <div class="form-title"><h3>Напишите нам</h3></div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Ваше имя:</label>
+      <input id="name" type="text" formControlName="name" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Ваш Email:</label>
+      <input id="email" type="email" formControlName="email" required>
+    </div>
+    <div class="form-group">
+      <label for="phone">Ваш телефон:</label>
+      <input id="phone" src="" type="text" formControlName="phone" required>
+    </div>
+    <div class="form-group">
+      <label for="topic">Тема:</label>
+      <select id="topic" formControlName="topic" required>
+        <option value="">Выберите тему</option>
+        <option value="option1">Опция 1</option>
+        <option value="option2">Опция 2</option>
+        <option value="option3">Опция 3</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="description">Ваше <br>сообщение:</label>
+      <textarea id="description" formControlName="description" required></textarea>
+    </div>
+    <div class="form-group captcha-group">
+      <label for="captcha">Цифры:</label>
+      <input id="captcha" type="text" formControlName="captcha" required>
+      <img src="captcha.png" alt="Капча">
+    </div>
+    <button type="submit" [disabled]="form.invalid">Отправить письмо!</button>
+  </form>
+</div>

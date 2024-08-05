@@ -1,0 +1,16 @@
+﻿.app_background {
+  width: 100%;
+  height: 100vh;
+
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #e3e3e3 0,
+    #e3e3e3 7px,
+    transparent 7px,
+    transparent 10px
+  );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

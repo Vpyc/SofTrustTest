@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {DatabaseService, Topic} from "../services/database.service";
+import {Contact, DatabaseService, Topic} from "../services/database.service";
 
 @Component({
   selector: 'app-form',
@@ -40,7 +40,22 @@ export class FormComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.form.valid) {
-      console.log(this.form.value);
+      const contact: Contact = {
+        name: this.form.value.name,
+        email: this.form.value.email,
+        phone: this.form.value.phone,
+        description: this.form.value.description,
+        topicId: this.form.value.topic
+      };
+
+      this._dbService.sendContact(contact).subscribe(
+        response => {
+          console.log('Контакт успешно сохранён!', response);
+        },
+        error => {
+          console.error('Ошибка при сохранении контакта:', error);
+        }
+      );
     } else {
       console.log('Форма невалидна');
     }

@@ -4,7 +4,7 @@
     public string Name { get; set; }
     public string Email { get; set; }
     public int DescriptionId { get; set; }
-    public DescriptionEntity DescriptionEntity { get; set; }
+    public string Phone { get; set; }
 }
 
 public class DescriptionEntity
@@ -12,7 +12,6 @@ public class DescriptionEntity
     public int Id { get; set; }
     public string Description { get; set; }
     public int Topic { get; set; }
-    public TopicEntity TopicEntity { get; set; }
 }
 
 public class TopicEntity

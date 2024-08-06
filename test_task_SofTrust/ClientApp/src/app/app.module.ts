@@ -16,6 +16,7 @@ import {NgxMaskModule} from "ngx-mask";
     HttpClientModule,
     ReactiveFormsModule,
     NgxMaskModule.forRoot(),
+    HttpClientModule,
     RouterModule.forRoot([
       {path: '', component: FormComponent, pathMatch: 'full'},
     ]),

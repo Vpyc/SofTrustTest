@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {DatabaseService, Topic} from "../services/database.service";
 
 @Component({
   selector: 'app-form',
@@ -9,8 +10,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class FormComponent implements OnInit {
   form: FormGroup;
   submitted: boolean = false;
-
-  constructor(private fb: FormBuilder) {
+  _dbService : DatabaseService;
+  topics : Topic[] | undefined;
+  constructor(private fb: FormBuilder,
+              databaseService: DatabaseService)
+  {
+    this._dbService = databaseService;
     this.form = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -21,7 +26,16 @@ export class FormComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._dbService.getTopics().subscribe(
+      (data) => {
+        this.topics = data;
+      },
+      (error) => {
+        console.error('Error fetching topics:', error);
+      }
+    )
+  }
 
   onSubmit() {
     this.submitted = true;

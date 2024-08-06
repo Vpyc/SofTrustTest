@@ -30,10 +30,7 @@
     <div class="form-group">
       <label for="topic">Тема:</label>
       <select id="topic" formControlName="topic">
-        <option value="">Выберите тему</option>
-        <option value="option1">Опция 1</option>
-        <option value="option2">Опция 2</option>
-        <option value="option3">Опция 3</option>
+        <option *ngFor = "let topic of topics" [value] = "topic.id"> {{topic.topic}}</option>
       </select>
     </div>
 

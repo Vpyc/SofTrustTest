@@ -156,3 +156,28 @@ button {
 button:hover {
   background-color: #636d73;
 }
+
+.captcha-container {
+  display: flex;
+  align-items: center;
+}
+
+.captcha-input {
+  display: flex;
+  align-items: center;
+}
+
+.captcha-input input {
+  width: 100px;
+  margin-right: 10px;
+}
+
+.captcha-text {
+  font-weight: bold;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+

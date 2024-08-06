@@ -12,6 +12,7 @@ export class FormComponent implements OnInit {
   submitted: boolean = false;
   _dbService : DatabaseService;
   topics : Topic[] | undefined;
+  captchaText: string | undefined;
   constructor(private fb: FormBuilder,
               databaseService: DatabaseService)
   {
@@ -22,7 +23,7 @@ export class FormComponent implements OnInit {
       phone: ['', [Validators.required, Validators.minLength(18)]],
       topic: ['', Validators.required],
       description: ['', Validators.required],
-      captcha: ['', Validators.required]
+      captcha: ['', [Validators.required, this.captchaValidator.bind(this)]]
     });
   }
 
@@ -35,6 +36,7 @@ export class FormComponent implements OnInit {
         console.error('Error fetching topics:', error);
       }
     )
+    this.generateCaptcha();
   }
 
   onSubmit() {
@@ -58,7 +60,23 @@ export class FormComponent implements OnInit {
       );
     } else {
       console.log('Форма невалидна');
+      this.generateCaptcha()
     }
+  }
+
+  generateCaptcha() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    this.captchaText = '';
+    for (let i = 0; i < 6; i++) {
+      this.captchaText += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+  }
+
+  captchaValidator(control: { value: string | undefined; }) {
+    if (control.value !== this.captchaText) {
+      return { incorrect: true };
+    }
+    return null;
   }
 
   get name() {

@@ -43,10 +43,12 @@
       </div>
     </div>
 
-    <div class="form-group captcha-group">
-      <label for="captcha">Цифры:</label>
-      <input id="captcha" type="text" formControlName="captcha">
-      <img src="captcha.png" alt="Капча">
+    <div class="form-group error-container captcha-container">
+      <label for="captcha">Капча:</label>
+      <div class="captcha-input">
+        <input id="captcha" type="text" formControlName="captcha" [ngClass]="{'error': captcha?.invalid && (submitted && captcha?.touched)}">
+        <span class="captcha-text">{{ captchaText }}</span>
+      </div>
     </div>
 
     <button type="submit">Отправить письмо!</button>

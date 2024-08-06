@@ -1,36 +1,56 @@
 <div class="form-container">
   <div class="form-title"><h3>Напишите нам</h3></div>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-group">
+    <div class="form-group error-container">
       <label for="name">Ваше имя:</label>
-      <input id="name" type="text" formControlName="name" required>
+      <input id="name" type="text" formControlName="name" [ngClass]="{'error': name?.invalid && (submitted && name?.touched)}">
+      <div *ngIf="name?.invalid && (submitted && name?.touched)" class="error-message">
+        <span *ngIf="name?.errors?.required">Пожалуйста, введите имя.</span>
+      </div>
     </div>
-    <div class="form-group">
+
+    <div class="form-group error-container">
       <label for="email">Ваш Email:</label>
-      <input id="email" type="email" formControlName="email" required>
+      <input id="email" type="email" formControlName="email" [ngClass]="{'error': email?.invalid && (submitted && email?.touched)}">
+      <div *ngIf="email?.invalid && (submitted && email?.touched)" class="error-message">
+        <span *ngIf="email?.errors?.required">Пожалуйста, введите email.</span>
+        <span *ngIf="email?.errors?.email">Некорректный email.</span>
+      </div>
     </div>
-    <div class="form-group">
+
+    <div class="form-group error-container">
       <label for="phone">Ваш телефон:</label>
-      <input id="phone" src="" type="text" formControlName="phone" required>
+      <input id="phone" type="text" formControlName="phone" prefix="+7" mask=" (000) 000-00-00" [dropSpecialCharacters]="false" [ngClass]="{'error': phone?.invalid && (submitted && phone?.touched)}">
+      <div *ngIf="phone?.invalid && (submitted && phone?.touched)" class="error-message">
+        <span *ngIf="phone?.errors?.required">Пожалуйста, введите телефон.</span>
+        <span *ngIf="phone?.errors?.minlength">Некорректный номер телефона.</span>
+      </div>
     </div>
+
     <div class="form-group">
       <label for="topic">Тема:</label>
-      <select id="topic" formControlName="topic" required>
+      <select id="topic" formControlName="topic">
         <option value="">Выберите тему</option>
         <option value="option1">Опция 1</option>
         <option value="option2">Опция 2</option>
         <option value="option3">Опция 3</option>
       </select>
     </div>
-    <div class="form-group">
+
+    <div class="form-group error-container">
       <label for="description">Ваше <br>сообщение:</label>
-      <textarea id="description" formControlName="description" required></textarea>
+      <textarea id="description" formControlName="description" [ngClass]="{'error': description?.invalid && (submitted && description?.touched)}"></textarea>
+      <div *ngIf="description?.invalid && (submitted && description?.touched)" class="error-message">
+        <p *ngIf="description?.errors?.required">Пожалуйста, введите сообщение.</p>
+      </div>
     </div>
+
     <div class="form-group captcha-group">
       <label for="captcha">Цифры:</label>
-      <input id="captcha" type="text" formControlName="captcha" required>
+      <input id="captcha" type="text" formControlName="captcha">
       <img src="captcha.png" alt="Капча">
     </div>
-    <button type="submit" [disabled]="form.invalid">Отправить письмо!</button>
+
+    <button type="submit">Отправить письмо!</button>
   </form>
 </div>

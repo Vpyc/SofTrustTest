@@ -43,6 +43,7 @@ export class FormComponent implements OnInit {
     this.submitted = true;
     if (this.form.valid) {
       const contact: Contact = {
+        id : 0,
         name: this.form.value.name,
         email: this.form.value.email,
         phone: this.form.value.phone,

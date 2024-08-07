@@ -38,36 +38,73 @@ namespace test_task_SofTrust
             {
                 return BadRequest("Не валидные данные.");
             }
-    
-            // Сначала создаем запись в таблице Descriptions
+            
+            var existingContact = await _context.Contacts
+                .FirstOrDefaultAsync(c => c.Email == contactDto.Email && c.Phone == contactDto.Phone);
+
+            if (existingContact != null)
+            {
+                var retDescription = await _context.Descriptions
+                    .Where(d => d.Id == existingContact.DescriptionId)
+                    .Select(d => new
+                    {
+                        d.Description,
+                        d.Topic
+                    })
+                    .FirstOrDefaultAsync();
+
+                var topic = await _context.Topics
+                    .Where(t => t.Id == retDescription.Topic)
+                    .Select(t => t.Topic)
+                    .FirstOrDefaultAsync();
+
+                return Ok(new ContactDto
+                {
+                    Id = existingContact.Id,
+                    Name = existingContact.Name,
+                    Email = existingContact.Email,
+                    Phone = existingContact.Phone,
+                    Description = retDescription.Description,
+                    TopicId = retDescription.Topic
+                });
+            }
+            
             var description = new DescriptionEntity
             {
                 Description = contactDto.Description,
-                Topic = contactDto.TopicId // Устанавливаем FK для Topic
+                Topic = contactDto.TopicId 
             };
     
             _context.Descriptions.Add(description);
-            await _context.SaveChangesAsync(); // Сохраняем изменения, чтобы получить ID
-    
-            // Теперь создаем запись в таблице Contacts
+            await _context.SaveChangesAsync();
+            
             var contact = new ContactEntity
             {
                 Name = contactDto.Name,
                 Email = contactDto.Email,
                 Phone = contactDto.Phone,
-                DescriptionId = description.Id // Устанавливаем FK для Description
+                DescriptionId = description.Id 
             };
     
             _context.Contacts.Add(contact);
             await _context.SaveChangesAsync();
     
-            return CreatedAtAction(nameof(PostContact), new { id = contact.Id }, contact);
+            return CreatedAtAction(nameof(PostContact), new ContactDto
+            {
+                Id = contact.Id,
+                Name = contact.Name,
+                Email = contact.Email,
+                Phone = contact.Phone,
+                Description = description.Description,
+                TopicId = description.Topic
+            });
         }
     }
 
         
     public class ContactDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
@@ -75,7 +112,3 @@ namespace test_task_SofTrust
         public int TopicId { get; set; }
     }
 }
-
-
-    
-

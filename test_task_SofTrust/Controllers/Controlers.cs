@@ -65,7 +65,7 @@ namespace test_task_SofTrust
                     Email = existingContact.Email,
                     Phone = existingContact.Phone,
                     Description = retDescription.Description,
-                    TopicId = retDescription.Topic
+                    Topic = topic
                 });
             }
             
@@ -110,5 +110,7 @@ namespace test_task_SofTrust
         public string Phone { get; set; }
         public string Description { get; set; }
         public int TopicId { get; set; }
+        
+        public string Topic { get; set; }
     }
 }

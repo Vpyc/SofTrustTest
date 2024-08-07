@@ -10,9 +10,11 @@ import {Contact, DatabaseService, Topic} from "../services/database.service";
 export class FormComponent implements OnInit {
   form: FormGroup;
   submitted: boolean = false;
+  recieved: boolean = false;
   _dbService : DatabaseService;
   topics : Topic[] | undefined;
   captchaText: string | undefined;
+  contactData: Contact | undefined;
   constructor(private fb: FormBuilder,
               databaseService: DatabaseService)
   {
@@ -48,12 +50,15 @@ export class FormComponent implements OnInit {
         email: this.form.value.email,
         phone: this.form.value.phone,
         description: this.form.value.description,
-        topicId: this.form.value.topic
+        topicId: this.form.value.topic,
+        topic: ""
       };
 
       this._dbService.sendContact(contact).subscribe(
         response => {
           console.log('Контакт успешно сохранён!', response);
+          this.contactData = response;
+          this.recieved = true;
         },
         error => {
           console.error('Ошибка при сохранении контакта:', error);

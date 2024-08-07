@@ -1,6 +1,6 @@
 <div class="form-container">
-  <div class="form-title"><h3>Напишите нам</h3></div>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div *ngIf ="!recieved" class="form-title"><h3>Напишите нам</h3></div>
+  <form *ngIf ="!recieved" [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-group error-container">
       <label for="name">Ваше имя:</label>
       <input id="name" type="text" formControlName="name" [ngClass]="{'error': name?.invalid && (submitted && name?.touched)}">
@@ -53,4 +53,12 @@
 
     <button type="submit">Отправить письмо!</button>
   </form>
+  <div *ngIf="submitted && contactData">
+    <h3 class="received-title">Полученные данные:</h3>
+    <p><strong>Имя:</strong> {{ contactData.name }}</p>
+    <p><strong>Email:</strong> {{ contactData.email }}</p>
+    <p><strong>Телефон:</strong> {{ contactData.phone }}</p>
+    <p><strong>Сообщение:</strong> {{ contactData.description }}</p>
+    <p><strong>Тема ID:</strong> {{ contactData.topic }}</p>
+  </div>
 </div>

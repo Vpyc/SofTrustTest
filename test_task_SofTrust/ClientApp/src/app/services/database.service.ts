@@ -13,6 +13,7 @@ export interface Contact {
   phone: string;
   description: string;
   topicId: number;
+  topic: string;
 }
 
 @Injectable({
